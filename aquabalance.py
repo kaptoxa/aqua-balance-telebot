@@ -38,6 +38,9 @@ class AquaBalanceBot():
     def add(self, raw_message: str) -> Mark:
         """ new mark """
         volume, text = _parse_message(raw_message)
+        if not volume:
+            return
+
         f_now = _get_now_formatted()
         inserted_row_id = db.insert("drunk", {
             "mdate": f_now,
@@ -71,15 +74,18 @@ class AquaBalanceBot():
             delta = then - now
             return delta.days < 2 and _get_now_datetime().day == then.day
 
+        return filter(is_today, self.drunklist())
+
+    def total(self) -> int:
         norm = db.fetchone(
             "users", ["norm"],
             {"id": ("=", self.chat_id)})
 
-        E = sum(mark.volume for mark in filter(is_today, self.drunklist()))
-
-        print(E, str(type(E)), norm, str(type(norm)))
-
+        E = sum(mark.volume for mark in self.today())
         return int(E / norm * 100)
+
+    def check(self) -> bool:
+        return self.total() >= 100
 
 
 def _get_now_formatted() -> str:
