@@ -94,9 +94,14 @@ def _get_now_datetime() -> datetime.datetime:
 
 def _parse_message(msg):
     """ text is what type of drink, number is a volume """
-    text = ['water']
+    text = []
     volume = 0
     for word in msg.split():
-        volume += int(word)
+        try:
+            volume += int(word)
+        except ValueError:
+            text += [word]
 
+    if not text:
+        text = ['water']
     return volume, ' '.join(text)
