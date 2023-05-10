@@ -5,7 +5,6 @@ from typing import List, NamedTuple, Optional
 import pytz
 
 import db
-import exceptions
 
 
 class Mark(NamedTuple):
@@ -31,7 +30,7 @@ class AquaBalanceBot():
         inserted_row_id = db.insert("users", {
             "id": self.chat_id,
             "name": name,
-            "norm": 3
+            "norm": 3000
         })
         return inserted_row_id
 
@@ -74,7 +73,7 @@ class AquaBalanceBot():
             delta = then - now
             return delta.days < 2 and _get_now_datetime().day == then.day
 
-        return filter(is_today, self.drunklist())
+        return list(filter(is_today, self.drunklist()))
 
     def total(self) -> int:
         norm = db.fetchone(
