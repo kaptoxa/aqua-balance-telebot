@@ -1,16 +1,9 @@
-import exceptions
-from aquabalance import AquaBalanceBot
-
 from aiogram import types
 from aiogram.dispatcher import FSMContext
-
-from aiogram.types import ParseMode
-from aiogram.utils.emoji import emojize
-from aiogram.utils.markdown import text
-
 from misc import bot, dp, logger, get_jedy, replicas
-
 from random import choice
+
+
 yes_sticker = 'CAACAgIAAxkBAAEBUFhfWKde9cDBGdMIB6khGi-MYk24uAACRAADQbVWDFpIqKL_emcUGwQ'
 rand_glass_stickers = ['CAACAgIAAxkBAAEBUDxfWKQhYTWMlTwtWI9xjbnRBHp6gAACTQADKA9qFJeLFU6mcatiGwQ',
 'CAACAgIAAxkBAAEBUD5fWKRFnGN1AAFspeJV8i28UiYTmJMAAk4AAygPahRTzIx8k3rZIRsE',
@@ -24,6 +17,7 @@ rand_glass_stickers = ['CAACAgIAAxkBAAEBUDxfWKQhYTWMlTwtWI9xjbnRBHp6gAACTQADKA9q
 'CAACAgIAAxkBAAEBUE5fWKTdWWGZqMbJ7-AuK3oFHLxrwQACLAADKA9qFBrFj1UD5bkFGwQ',
 'CAACAgIAAxkBAAEBUFJfWKTxuzeEuojxbWeurVMzvFjVAAMpAAMoD2oUt8YUgo85goYbBA',
 'CAACAgIAAxkBAAEBUFZfWKUVkKrchVv5RqMSrvSBDs0I6QACMQADKA9qFNP_vQUM1nJIGwQ']
+
 
 @dp.message_handler(
         state='*', commands=['start', 'help'])
@@ -78,6 +72,7 @@ async def today(message: types.Message, state: FSMContext):
 
     sticker = yes_sticker if abot.check() else choice(rand_glass_stickers)
     await bot.send_sticker(message.from_user.id, sticker)
+
 
 @dp.message_handler(state='*', content_types=types.ContentTypes.TEXT)
 async def add_drunk(message: types.Message, state: FSMContext):
