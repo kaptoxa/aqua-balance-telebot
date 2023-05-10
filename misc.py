@@ -14,7 +14,7 @@ from aiogram.dispatcher import FSMContext
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - [%(levelname)s] - %(name)s - (%(filename)s).%(funcName)s(%(lineno)d) - %(message)s",)
 logger = logging.getLogger(__name__)
 
-API_TOKEN = os.getenv('API_TOKEN')
+from config import API_TOKEN
 
 bot = Bot(token=API_TOKEN, parse_mode=types.ParseMode.HTML)
 
@@ -23,7 +23,6 @@ dp = Dispatcher(bot, storage=storage)
 
 with open("replicas.json", "r") as r_file:
     replicas = json.load(r_file)
-
 
 
 async def get_jedy(chat_id, state: FSMContext):
